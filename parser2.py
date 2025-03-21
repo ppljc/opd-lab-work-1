@@ -14,14 +14,15 @@ def parse():
 
     prices = []
 
-    for i in range(1, 6):
+    for i in range(1, 5):
         page = requests.get(f'{url}?page={i}', proxies=proxies, headers=headers)
 
         soup = BeautifulSoup(page.text, "html.parser")
 
-        block = soup.findAll('span', class_='b-price-good-list__value b-price__value')
+        block = soup.findAll('div', class_='ProductCard_price__BGOMv')
+
         for data in block:
-            prices.append(int(data.text.replace(' ', '').replace('\n', '')))
+            prices.append(int(data.text.replace(' ', '').replace('\n', '').replace('₽', '').replace(',', '')))
 
     print(
         f'MIN = {min(prices)}\n'
